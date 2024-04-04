@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(163 163 163) transparent;
+}
+
+::-webkit-scrollbar {
+    width: 10px
+}
+
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(163 163 163);
+    border-radius: 15px;
+    border: 2px solid rgb(163 163 163);
+}
+
+
+@layer utilities {
+    .scrollbar-hidden {
+        scrollbar-width: none;
+    }
+
+    .scrollbar-visible {
+        scrollbar-width: thin;
+    }
+
+    .scroll-resp {
+        background-image: linear-gradient(to right, rgb(23, 23, 23), rgb(23, 23, 23)), linear-gradient(to right, rgb(23, 23, 23), rgb(23, 23, 23)), linear-gradient(to right, rgba(64, 64, 64, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to left, rgba(64, 64, 64, 0.75), rgba(255, 255, 255, 0));
+        /* Shadows */
+        /* Shadow covers */
+        background-position: left center, right center, left center, right center;
+        background-repeat: no-repeat;
+        background-color: transparent;
+        background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+        background-attachment: local, local, scroll, scroll;
+    }
+}

@@ -65,7 +65,7 @@ export const TagSearch: React.FC<TagSearchProps> = ({
           </div>
           <button
             onClick={() => handleClick()}
-            className={`${button} aspect-square h-full `}
+            className={`${button} bg-neutral-800 aspect-square h-full `}
           >
             <IconSearch size={"100%"} stroke={"1.5"} />
           </button>

@@ -69,16 +69,18 @@ const VolumeSlider: React.FC = () => {
   }, [handleVolume]);
 
   return (
-    <div className="overflow-hidden rounded-md w-full relative">
-      <div
-        className={` ${animAll} *:betterhover:hover:bg-neutral-200 relative w-full h-1.5 betterhover:hover:h-3 bg-neutral-600 cursor-pointer rounded-md`}
-        ref={sliderRef}
-      >
+    <div className="flex w-full relative">
+      <div className="overflow-hidden rounded-md w-full relative">
         <div
-          className="absolute w-full h-full bg-white bottom-0 left-0 rounded-md pointer-events-none transition-colors duration-300 translate-x-dynamic"
-          style={{ transform: `translateX(-${100 - volume * 100}%)` }}
-        />
-        {/* <div className="volume-handle" style={{ left: `${volume * 100}%` }} /> */}
+          className={` ${animAll} *:betterhover:hover:bg-neutral-200 relative w-full h-1.5 betterhover:hover:h-3 bg-neutral-700 cursor-pointer rounded-md`}
+          ref={sliderRef}
+        >
+          <div
+            className="absolute w-full h-full bg-white bottom-0 left-0 rounded-md pointer-events-none transition-colors duration-300 translate-x-dynamic"
+            style={{ transform: `translateX(-${100 - volume * 100}%)` }}
+          />
+        </div>{" "}
+        {/* <div className="flex absolute min-h-2 min-w-1 " style={{ left: `${volume * 100}%` }} /> */}
       </div>
     </div>
   );

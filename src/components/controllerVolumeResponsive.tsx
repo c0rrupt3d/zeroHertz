@@ -1,16 +1,11 @@
 import { animAll, button, buttonHoverOnly } from "@/utils/tailwindUtil";
 import VolumeSlider from "./volumeSlider";
 import { useShallow } from "zustand/react/shallow";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-
-} from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { useInterfaceStore } from "@/stores/interfaceStore";
 import ControllerDrawerVolumeButton from "./controllerDrawerVolumeButton";
 
 const ControllerVolumeResponsive: React.FC = () => {
-
   const { isVolumeSlider, setVolumeSlider } = useInterfaceStore(
     useShallow((state) => ({
       isVolumeSlider: state.isVolumeSlider,
@@ -21,7 +16,7 @@ const ControllerVolumeResponsive: React.FC = () => {
   return (
     <div
       id="control-volume-reponsive"
-      className={`relative xs:hidden flex h-full w-full right-0 top-0 `}
+      className={`relative flex h-full w-full right-0 top-0 `}
     >
       <div
         id="draw-responsive"
@@ -30,22 +25,25 @@ const ControllerVolumeResponsive: React.FC = () => {
         <button
           onClick={() => setVolumeSlider(!isVolumeSlider)}
           id="draw-button"
-          className={`py-2 ${button} flex relative h-full aspect-square cursor-pointer`}
+          className={`${button} flex relative h-full aspect-square`}
         >
-          <div className="flex h-full w-full relative justify-center items-center">
+          <div className="flex flex-col h-full w-full relative justify-center items-center">
             {isVolumeSlider ? (
               <IconChevronRight size={"100%"} stroke={"1.5"} />
             ) : (
               <IconChevronLeft size={"100%"} stroke={"1.5"} />
             )}
+            <span className={`text-xs font-extralight`}>
+              {isVolumeSlider ? "Hide" : "Show"}
+            </span>
           </div>
+        </button>
+        <div className="h-full relative py-2 px-0.5">
           <div
             id="seperator"
             className=" h-full mx-0.5 w-1 min-w-1 flex bg-neutral-400 rounded"
           ></div>
-        </button>
-
-        <ControllerDrawerVolumeButton/>
+        </div>
         <div
           id="volume-slider"
           className={` ${
@@ -59,6 +57,8 @@ const ControllerVolumeResponsive: React.FC = () => {
             <VolumeSlider />
           </div>
         </div>
+
+        <ControllerDrawerVolumeButton />
       </div>
     </div>
   );

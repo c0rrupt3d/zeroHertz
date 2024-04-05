@@ -7,7 +7,7 @@ const ControllerVolumeDefault: React.FC = () => {
   return (
     <div
       id="control-volume-default"
-      className={` hidden relative xs:flex justify-self-end justify-end h-full w-full items-center`}
+      className={` hidden relative sm:flex justify-self-end justify-end h-full w-full items-center`}
     >
       <div
         id="volume-wrap"
@@ -17,7 +17,7 @@ const ControllerVolumeDefault: React.FC = () => {
       </div>
       <div
         id="volume-slider"
-        className={` ${buttonHoverOnly} justify-center items-center p-2 rounded-md w-32 h-full flex `}
+        className={` ${buttonHoverOnly} justify-center items-center p-2 rounded-md w-28 h-full flex `}
       >
         <VolumeSlider />
       </div>

@@ -1,7 +1,6 @@
 import { morphOn } from "@/utils/tailwindUtil";
 import ControllerDrawer from "../components/controllerDrawer";
 import ControllerVolumeResponsive from "../components/controllerVolumeResponsive";
-import ControllerVolumeDefault from "../components/controllerVolumeDefault";
 
 const Controller: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ const Controller: React.FC = () => {
     >
       <ControllerDrawer />
       <ControllerVolumeResponsive />
-      <ControllerVolumeDefault />
+      {/* <ControllerVolumeDefault /> */}
     </div>
   );
 };

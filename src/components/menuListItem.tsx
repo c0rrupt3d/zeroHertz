@@ -10,6 +10,7 @@ import {
 } from "@/utils/tailwindUtil";
 import {
   IconCircleCheckFilled,
+  IconDots,
   IconDotsVertical,
   IconHeartFilled,
   IconInnerShadowBottomFilled,
@@ -26,13 +27,14 @@ const MenuListItem = ({
   handleSelection,
   dynamicTagsVisible,
 }: MenuListItemType) => {
-  const { currentStation, playing, radioBuffer, favouriteStations } =
+  const { currentStation, searchFiltersTags, playing, radioBuffer, favouriteStations } =
     useRadioStore(
       useShallow((state) => ({
         currentStation: state.currentStation,
         playing: state.playing,
         radioBuffer: state.radioBuffer,
         favouriteStations: state.favouriteStations,
+        searchFiltersTags: state.searchFilters.tags
       }))
     );
   const { setIsDrawer, setDrawerData } = useInterfaceStore(
@@ -45,12 +47,34 @@ const MenuListItem = ({
   const handleDrawer = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     setIsDrawer(true);
-    setDrawerData("channel", res);
+    setDrawerData("channel", {...res, tags: prioritizeTags(res.tags, searchFiltersTags).join(",")});
   };
 
   const checkFavourite = favouriteStations.some(
     (station) => station.stationuuid === res.stationuuid
   );
+
+  const prioritizeTags = (tags: string, searchedTags: string): string[] => {
+    const allTags = tags.split(",").filter((tag) => tag.trim() !== "");
+    const searchedTagsArray = searchedTags.split(",").map((tag) => tag.trim());
+  
+    if (searchedTagsArray.length === 0) {
+      return allTags;
+    }
+  
+    const prioritizedTags = [];
+    for (const tag of searchedTagsArray) {
+      const index = allTags.indexOf(tag);
+      if (index !== -1) {
+        prioritizedTags.push(allTags.splice(index, 1)[0]);
+      }
+    }
+  
+    prioritizedTags.push(...allTags);
+  
+    return prioritizedTags;
+  };
+
 
   return (
     <>
@@ -58,7 +82,7 @@ const MenuListItem = ({
         id="result-item"
         className={`${interaction} ${
           res.stationuuid === currentStation.stationuuid && selected
-        } ${animAll} cursor-pointer rounded-md w-full my-0.5 flex flex-col h-max p-2`}
+        } ${animAll} cursor-pointer rounded-md w-full my-0.5 flex flex-col h-max py-1 px-2`}
         onClick={() => handleSelection(res)}
         key={res.stationuuid}
       >
@@ -111,7 +135,7 @@ const MenuListItem = ({
             <div className="flex w-full h-full items-center justify-between truncate">
               <div className={`${animAll} flex flex-row truncate items-center`}>
                 <h4
-                  className={` ${animAll} ml-1 text-lg font-semibold truncate`}
+                  className={` ${animAll} ${playing && res.stationuuid === currentStation.stationuuid && "text-fuchsia-200"}  ml-1 text-lg font-semibold truncate`}
                 >
                   {res.name}
                 </h4>
@@ -130,7 +154,7 @@ const MenuListItem = ({
         <>
           <div
             id="tags"
-            className="mt-2 w-full overflow-x-auto items-center flex flex-wrap "
+            className="mt-1 w-full overflow-x-auto items-center flex flex-wrap "
           >
             <ItemTag>
               {res.countrycode && (
@@ -160,9 +184,8 @@ const MenuListItem = ({
                 {`${res.bitrate}kBit/s`}
               </ItemTag>
             )}
-            {res.tags
-              .split(",")
-              .slice(0, 8)
+            {prioritizeTags(res.tags, searchFiltersTags)
+              .slice(0, 5)
               .map((tag: string, index: number) => {
                 if (tag !== "") {
                   return (
@@ -174,6 +197,7 @@ const MenuListItem = ({
                   );
                 }
               })}
+              {res.tags.split(",").length > 6 && <ItemTag><IconDots size={"100%"} stroke={"1.5"} /></ItemTag>}
           </div>
         </>
       </div>

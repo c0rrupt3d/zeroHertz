@@ -92,7 +92,7 @@ const Channel: React.FC = () => {
       <ChannelPlayer />
       <div
         id="channel-wrap"
-        className={` ${morphOn} ${animColor} relative h-16 xs:rounded-md w-full p-2 flex items-center`}
+        className={` ${morphOn} ${animColor} relative h-[4.5rem] xs:rounded-md w-full p-2 flex items-center`}
       >
         <div
           id="channel-desc"
@@ -101,7 +101,7 @@ const Channel: React.FC = () => {
           <div id="channel-title-mask" className=" w-full flex">
             <h1
               id="channel-name"
-              className=" font-medium text-lg xs:text-xl truncate"
+              className=" font-medium text-xl xs:text-2xl truncate"
             >
               {currentStation.name}
             </h1>

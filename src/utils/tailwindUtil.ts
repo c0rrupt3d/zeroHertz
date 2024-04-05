@@ -1,6 +1,6 @@
-export const animAll = `duration-300 transition-all ease-default`;
+export const animAll = `duration-200 transition-all ease-default`;
 export const animColor = `duration-300 transition-color ease-default`;
-export const interaction = `betterhover:hover:bg-neutral-800`;
+export const interaction = `betterhover:hover:bg-neutral-700/50`;
 export const interactionInput = `has-[:focus]:ring-2 has-[:focus]:ring-neutral-500 has-[:focus]:ring-inset betterhover:hover:bg-neutral-700 has-[:focus]:bg-neutral-800`;
 export const button = `p-1 ${animAll} ${interaction} stroke-white cursor-pointer rounded-md active:scale-90`;
 export const buttonSelection = `p-0.5 ${animAll} ${interaction} stroke-white cursor-pointer rounded-md`;

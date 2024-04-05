@@ -35,7 +35,7 @@ const ControllerDrawer: React.FC = () => {
         isVolumeSlider
           ? "opacity-0 scale-90 pointer-events-none w-0"
           : "opacity-100 scale-100 w-full"
-      } ${animAll} relative h-full flex flex-row`}
+      } ${animAll} relative h-full flex flex-row `}
     >
       <ControllerDrawerButton
         menuSection={menuSection}

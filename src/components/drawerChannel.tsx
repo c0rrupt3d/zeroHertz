@@ -1,9 +1,9 @@
 import { buttonSelection, iconHide, iconShow } from "@/utils/tailwindUtil";
 import {
   IconExternalLink,
+  IconHeartFilled,
+  IconHeartPlus,
   IconRadar2,
-  IconStar,
-  IconStarFilled,
 } from "@tabler/icons-react";
 import Spinner from "./spinner";
 import React, { useEffect, useState } from "react";
@@ -122,7 +122,7 @@ export const DrawerChannel: React.FC = () => {
           )}
         </div>
         <div className="flex flex-col ml-2 w-full relative overflow-hidden">
-          <h1 className=" flex w-full font-medium text-lg sm:text-xl max-h-40 overflow-y-auto">
+          <h1 className=" flex w-full font-medium text-lg xs:text-xl max-h-40 overflow-y-auto">
             {mainData.name}
           </h1>
           <div className="flex mt-1 items-center">
@@ -134,7 +134,7 @@ export const DrawerChannel: React.FC = () => {
       </div>
       <div
         id="tags"
-        className="mt-2 w-full items-center flex overflow-x-auto scrollbar-hidden sm:scrollbar-visible scroll-resp "
+        className="mt-2 w-full items-center flex overflow-x-auto scrollbar-hidden xs:scrollbar-visible scroll-resp "
       >
         {mainData.countrycode && (
           <ItemTag>
@@ -179,9 +179,9 @@ export const DrawerChannel: React.FC = () => {
           }
           icon={
             !checkFavourite ? (
-              <IconStar size={"100%"} stroke={"1.5"} />
+              <IconHeartPlus size={"100%"} stroke={"1.5"} />
             ) : (
-              <IconStarFilled size={"100%"} stroke={"1.5"} />
+              <IconHeartFilled size={"100%"} stroke={"1.5"} />
             )
           }
           click={() => {

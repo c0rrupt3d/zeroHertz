@@ -28,8 +28,8 @@ export default {
         playing: "flow 16s ease infinite",
         swipeText: "marquee 16s linear infinite",
         wiggly: "wiggle 0.15s linear 4",
-        pingSlow: "ping 2s ease-out infinite",
-        spinSlow: "spin 3s linear infinite",
+        pingSlow: "ping 2.5s ease-out infinite",
+        spinSlow: "rotate 3s linear infinite",
       },
       keyframes: {
         flow: {
@@ -57,6 +57,10 @@ export default {
           "50%": { transform: "rotate(0eg)" },
           "75%": { transform: "rotate(-8deg)" },
           "100%": { transform: "rotate(0deg)" },
+        },
+        rotate: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
         },
       },
       fontFamily: {

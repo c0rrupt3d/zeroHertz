@@ -1,5 +1,4 @@
 import { IconCircleDashed, IconLoader2 } from "@tabler/icons-react";
-import React from "react";
 
 const Spinner: React.FC<SpinnerProps> = ({ alt }) => {
   return (

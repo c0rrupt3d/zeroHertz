@@ -2,7 +2,7 @@ import { useInterfaceStore } from "@/stores/interfaceStore";
 import { useRadioStore } from "@/stores/radioStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { fetchPlayableUrl } from "@/utils/apiConnect";
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 let newAbortController: AbortController | undefined;

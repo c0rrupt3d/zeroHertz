@@ -11,8 +11,8 @@ import {
 import {
   IconCircleCheckFilled,
   IconDotsVertical,
+  IconHeartFilled,
   IconInnerShadowBottomFilled,
-  IconStarFilled,
 } from "@tabler/icons-react";
 import React from "react";
 import { useShallow } from "zustand/react/shallow";
@@ -58,7 +58,7 @@ const MenuListItem = ({
         id="result-item"
         className={`${interaction} ${
           res.stationuuid === currentStation.stationuuid && selected
-        } ${animAll} cursor-pointer rounded-md w-full my-1 flex flex-col h-max p-2`}
+        } ${animAll} cursor-pointer rounded-md w-full my-0.5 flex flex-col h-max p-2`}
         onClick={() => handleSelection(res)}
         key={res.stationuuid}
       >
@@ -72,6 +72,11 @@ const MenuListItem = ({
               } relative`}
             >
               <div className="flex absolute items-center justify-center h-full w-full">
+                {playing && !radioBuffer && (
+                  <>
+                    <span className=" absolute animate-pingSlow h-full w-full bg-neutral-400/50 rounded-full" />
+                  </>
+                )}
                 <div
                   className={`${buttonSwap} ${animAll} ${
                     (playing && !radioBuffer) || (!playing && !radioBuffer)
@@ -84,15 +89,10 @@ const MenuListItem = ({
                 <div
                   className={`${buttonSwap} ${animAll} ${
                     radioBuffer ? iconShow : iconHide
-                  } animate-spinSlow `}
+                  } animate-spinSlow`}
                 >
                   <IconInnerShadowBottomFilled size={"100%"} stroke={"1.5"} />
                 </div>
-                {playing && !radioBuffer && (
-                  <>
-                    <span className="-z-10 absolute animate-pingSlow h-full w-full bg-neutral-400 rounded-full" />
-                  </>
-                )}
               </div>
             </div>
             {dynamicTagsVisible && (
@@ -104,7 +104,7 @@ const MenuListItem = ({
                 } relative`}
               >
                 <div className="flex absolute items-center justify-center h-full w-full">
-                  <IconStarFilled size={"100%"} stroke={"1.5"} />
+                  <IconHeartFilled size={"100%"} stroke={"1.5"} />
                 </div>
               </div>
             )}
@@ -116,9 +116,9 @@ const MenuListItem = ({
                   {res.name}
                 </h4>
               </div>
-              <div className="flex relative h-full aspect-square">
+              <div className="flex relative h-3/4 aspect-square">
                 <button
-                  className={`${button} p-1.5 z-10 h-full aspect-square`}
+                  className={`${button} p-1 z-10 h-full aspect-square`}
                   onClick={(e) => handleDrawer(e)}
                 >
                   <IconDotsVertical size={"100%"} stroke={"1.5"} />

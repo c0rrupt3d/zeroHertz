@@ -1,6 +1,6 @@
 import { useSettingsStore } from "@/stores/settingsStore";
 import { animAll } from "@/utils/tailwindUtil";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 const VolumeSlider: React.FC = () => {
@@ -71,7 +71,7 @@ const VolumeSlider: React.FC = () => {
   return (
     <div className="overflow-hidden rounded-md w-full relative">
       <div
-        className={` ${animAll} *:betterhover:hover:bg-neutral-200 relative w-full h-1.5 betterhover:hover:h-3 bg-neutral-500 cursor-pointer rounded-md`}
+        className={` ${animAll} *:betterhover:hover:bg-neutral-200 relative w-full h-1.5 betterhover:hover:h-3 bg-neutral-600 cursor-pointer rounded-md`}
         ref={sliderRef}
       >
         <div

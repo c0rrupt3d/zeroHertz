@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   animAll,
   animColor,
@@ -54,6 +54,8 @@ const Channel: React.FC = () => {
     }))
   );
 
+  const [validity, setValidity] = useState<boolean>(false);
+
   const handleDrawer = (value: boolean) => {
     if (value) {
       setDrawerData("channel", currentStation);
@@ -81,12 +83,16 @@ const Channel: React.FC = () => {
     setValidStation();
   }, []);
 
+  useEffect(() => {
+    setValidity(validStation);
+  }, [validStation]);
+
   return (
     <>
       <ChannelPlayer />
       <div
         id="channel-wrap"
-        className={` ${morphOn} ${animColor} relative h-20 rounded-md w-full p-2 flex items-center`}
+        className={` ${morphOn} ${animColor} relative h-16 xs:rounded-md w-full p-2 flex items-center`}
       >
         <div
           id="channel-desc"
@@ -95,7 +101,7 @@ const Channel: React.FC = () => {
           <div id="channel-title-mask" className=" w-full flex">
             <h1
               id="channel-name"
-              className=" font-medium text-xl sm:text-2xl truncate"
+              className=" font-medium text-lg xs:text-xl truncate"
             >
               {currentStation.name}
             </h1>
@@ -103,7 +109,7 @@ const Channel: React.FC = () => {
           <div id="channel-subtitle-mask" className="w-full flex">
             <h3
               id="channel-loc"
-              className=" text-xs sm:text-sm font-extralight truncate"
+              className=" text-xs xs:text-sm font-extralight truncate"
             >
               {currentStation.country}
             </h3>
@@ -113,11 +119,11 @@ const Channel: React.FC = () => {
           id="channel-player"
           className="h-full w-1/2 flex justify-end items-center"
         >
-          {validStation && (
+          {validity && (
             <button
               onClick={() => handleDrawer(true)}
               id="more-button"
-              className={`${button} w-10 h-10 justify-center items-center mr-1 flex`}
+              className={`${button} h-3/4 aspect-square justify-center items-center mr-1 flex`}
             >
               <div className="flex h-full w-full relative justify-center items-center">
                 <IconDotsVertical size={"100%"} stroke={"1.5"} />

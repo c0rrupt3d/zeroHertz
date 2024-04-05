@@ -5,7 +5,7 @@ import { useRadioStore } from "@/stores/radioStore";
 import { useShallow } from "zustand/react/shallow";
 import MenuListItem from "./menuListItem";
 // import { fetchStationDetails } from "@/utils/apiConnect";
-import { IconStarOff } from "@tabler/icons-react";
+import { IconHeartBroken } from "@tabler/icons-react";
 import MenuNoResult from "./menuNoResult";
 
 // let newAbortController: AbortController | undefined;
@@ -69,7 +69,7 @@ const MenuFavourites: React.FC = () => {
             })
           ) : (
             <MenuNoResult
-              icon={<IconStarOff size={"100%"} stroke={"1.5"} />}
+              icon={<IconHeartBroken size={"100%"} stroke={"1.5"} />}
               text={"No favourites added"}
             />
           )}

@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
           playing && !radioBuffer
             ? "opacity-100 delay-200 scale-100"
             : "opacity-0 delay-100 scale-[0.98] grayscale"
-        } duration-500 transition-all ease-default animate-playing bg-gradient-to-r from-pink-600 via-violet-600 to-indigo-600  absolute w-full h-full`}
+        } duration-500 transition-all ease-default animate-playing bg-gradient-to-r from-pink-700 via-violet-700 to-indigo-700  absolute w-full h-full`}
       ></div>
       <MemoToasty />
       <MemoDrawer />
@@ -90,19 +90,19 @@ export const Home: React.FC = () => {
       >
         <div
           id="radio-wrap-inner"
-          className=" overflow-hidden z-30 flex flex-col relative m-0.5 xs:my-2 xs:max-w-screen-xs w-full max-w-full justify-end"
+          className=" overflow-hidden z-30 flex flex-col relative xs:my-1 xs:max-w-screen-xs w-full max-w-full justify-end"
         >
           <div
             id="radio-menu"
-            className={`mb-0.5 xs:mb-2 z-20 h-full overflow-y-auto sm:h-full sm:max-h-[900px] flex flex-col relative`}
+            className={`mb-0.5 xs:mb-1 z-20 h-full overflow-y-auto xs:h-full xs:max-h-[900px] flex flex-col relative`}
           >
             <MemoMenu />
           </div>
           <div
             id="radio-drawer"
-            className="z-20 backdrop-blur-md min-w-full flex-col flex items-end justify-between rounded-md"
+            className="z-20 backdrop-blur-md min-w-full flex-col flex items-end justify-between xs:rounded-md"
           >
-            <div id="radio-controller" className="mb-0.5 xs:mb-2 w-full flex justify-between items-center" >
+            <div id="radio-controller" className="mb-0.5 xs:mb-1 w-full flex justify-between items-center" >
             <MemoController />
             </div>
             <MemoChannel />

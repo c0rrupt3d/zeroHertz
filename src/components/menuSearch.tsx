@@ -7,11 +7,7 @@ import {
 } from "@tabler/icons-react";
 import React, { useState, useRef, useEffect } from "react";
 import MenuHeading from "./menuHeading";
-import {
-  animAll,
-  button,
-  interactionInput,
-} from "@/utils/tailwindUtil";
+import { animAll, button, interactionInput } from "@/utils/tailwindUtil";
 import { findStations } from "@/utils/apiConnect";
 import { useShallow } from "zustand/react/shallow";
 import Spinner from "./spinner";
@@ -92,21 +88,24 @@ const MenuSearch: React.FC = () => {
         signal: controller.signal,
       });
 
-      let newResults: SearchResult[] = [...results]
+      let newResults: SearchResult[] = [...results];
 
       if (newOffset === 0) {
         setResults([]);
-        newResults = []
+        newResults = [];
       }
 
-      newResults = [...newResults, ...searchResult.map(Object.freeze) as SearchResult[]]
+      newResults = [
+        ...newResults,
+        ...(searchResult.map(Object.freeze) as SearchResult[]),
+      ];
       setResults(newResults);
 
-      const newMoreResults = (newResults.length % 15 === 0 && searchResult.length > 0)
-      setMoreResults(newMoreResults)
+      const newMoreResults =
+        newResults.length % 15 === 0 && searchResult.length > 0;
+      setMoreResults(newMoreResults);
 
       // setEmptyResults(!newMoreResults && newResults.length === 0);
-
     } catch {
       if (!controller.signal.aborted) {
         setFailed(true);
@@ -148,7 +147,6 @@ const MenuSearch: React.FC = () => {
     setWorking(true);
     requestSearchResults();
   }, [searchFilters]);
-
 
   return (
     <div id="search-wrap" className="w-full flex flex-col h-full ">
@@ -234,7 +232,8 @@ const MenuSearch: React.FC = () => {
                             className={` w-full flex justify-center items-center font-semibold text-lg ${button} p-2 `}
                             onClick={loadMoreResults}
                           >
-                            <IconChevronsDown stroke={"1.5"} /> <span>{"Load More"}</span>
+                            <IconChevronsDown stroke={"1.5"} />{" "}
+                            <span>{"Load More"}</span>
                           </button>
                         </>
                       )}

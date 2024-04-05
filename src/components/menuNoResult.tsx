@@ -1,5 +1,3 @@
-import React from "react";
-
 const MenuNoResult: React.FC<MenuNoResultProps> = ({icon, text}) => {
   return (
     <>

@@ -3,6 +3,7 @@ import { useInterfaceStore } from "@/stores/interfaceStore";
 import {
   animAll,
   buttonSelection,
+  morphOn,
 } from "@/utils/tailwindUtil";
 import {
   IconChevronCompactDown,
@@ -38,7 +39,7 @@ const Drawer = () => {
         } xs:max-w-screen-xs w-full h-fit max-h-[75svh] relative flex will-change-transform border border-b-0 rounded-md rounded-b-none border-neutral-800 `}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="rounded-md rounded-b-none w-full h-full bg-neutral-900 flex flex-col bottom-0">
+        <div className={`rounded-md rounded-b-none w-full h-full ${morphOn} flex flex-col bottom-0`}>
           <button
             onClick={() => setIsDrawer(false)}
             type="button"

@@ -22,7 +22,7 @@ const ToggleSwitch: React.FC<ToggleProps> = ({
         />
         <span className=" block my-1 text-md font-medium">{label}</span>
         <div
-          className={`relative w-11 h-6 rounded-full peer-focus:ring-4 peer-focus:ring-neutral-800 bg-neutral-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-neutral-600 peer-checked:bg-neutral-400`}
+          className={`relative w-11 h-6 rounded-full peer-focus:ring-4 peer-focus:ring-neutral-800 bg-neutral-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full  after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-neutral-500`}
         />
       </label>
     </div>

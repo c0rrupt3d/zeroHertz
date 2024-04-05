@@ -81,8 +81,6 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
           }),
         handleRadioToggle: (value) =>
           set((state) => {
-            console.log("toggling");
-            state.setValidStation();
             let valid = false;
             const keys: Array<keyof Station> = ["name", "url", "stationuuid"];
             if (
@@ -91,8 +89,10 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
               )
             ) {
               valid = false;
+              state.validStation = false;
             } else {
               valid = true;
+              state.validStation = true;
             }
             if (!valid) {
               throw new Error("No station selected");
@@ -152,6 +152,6 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
         }),
       }
     )
-    // )
-  )
+    )
+  // )
 );

@@ -198,10 +198,8 @@ type MenuHeadingType = {
 };
 
 type MenuListItemType = {
-  searchFilters: SearchOptions;
   res: any;
   special: boolean;
-  handleSelection(res: any): Promise<void>;
   dynamicTagsVisible: boolean;
 };
 

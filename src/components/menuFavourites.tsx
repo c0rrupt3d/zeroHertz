@@ -13,15 +13,9 @@ import MenuNoResult from "./menuNoResult";
 const MenuFavourites: React.FC = () => {
   const {
     favouriteStations,
-    handleFirstPlay,
-    handleCurrentStation,
-    searchFilters,
   } = useRadioStore(
     useShallow((state) => ({
       favouriteStations: state.favouriteStations,
-      handleFirstPlay: state.handleFirstPlay,
-      handleCurrentStation: state.handleCurrentStation,
-      searchFilters: state.searchFilters,
     }))
   );
 
@@ -40,10 +34,6 @@ const MenuFavourites: React.FC = () => {
   //   }
   // };
 
-  const handleSelection = async (res: any) => {
-    handleFirstPlay();
-    handleCurrentStation(res);
-  };
 
   return (
     <div id="favourite-wrap" className="w-full flex flex-col h-full ">
@@ -58,10 +48,8 @@ const MenuFavourites: React.FC = () => {
               return (
                 <React.Fragment key={res.stationuuid}>
                   <MenuListItem
-                    handleSelection={handleSelection}
                     res={res}
                     special={true}
-                    searchFilters={searchFilters}
                     dynamicTagsVisible={false}
                   />
                 </React.Fragment>

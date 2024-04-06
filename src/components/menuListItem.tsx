@@ -1,13 +1,5 @@
 import { useRadioStore } from "@/stores/radioStore";
-import {
-  animAll,
-  button,
-  buttonSwap,
-  iconHide,
-  iconShow,
-  interaction,
-  selected,
-} from "@/utils/tailwindUtil";
+import { animAll, button, interaction, selected } from "@/utils/tailwindUtil";
 import {
   IconCircleCheckFilled,
   IconDots,
@@ -21,22 +13,29 @@ import ItemTag from "./itemTag";
 import { useInterfaceStore } from "@/stores/interfaceStore";
 
 const MenuListItem = ({
-  searchFilters,
   res,
   special,
-  handleSelection,
   dynamicTagsVisible,
 }: MenuListItemType) => {
-  const { currentStation, searchFiltersTags, playing, radioBuffer, favouriteStations } =
-    useRadioStore(
-      useShallow((state) => ({
-        currentStation: state.currentStation,
-        playing: state.playing,
-        radioBuffer: state.radioBuffer,
-        favouriteStations: state.favouriteStations,
-        searchFiltersTags: state.searchFilters.tags
-      }))
-    );
+  const {
+    currentStation,
+    searchFilters,
+    playing,
+    radioBuffer,
+    favouriteStations,
+    handleCurrentStation,
+    handleFirstPlay,
+  } = useRadioStore(
+    useShallow((state) => ({
+      currentStation: state.currentStation,
+      playing: state.playing,
+      radioBuffer: state.radioBuffer,
+      favouriteStations: state.favouriteStations,
+      searchFilters: state.searchFilters,
+      handleCurrentStation: state.handleCurrentStation,
+      handleFirstPlay: state.handleFirstPlay,
+    }))
+  );
   const { setIsDrawer, setDrawerData } = useInterfaceStore(
     useShallow((state) => ({
       setIsDrawer: state.setIsDrawer,
@@ -44,10 +43,18 @@ const MenuListItem = ({
     }))
   );
 
+  const handleSelection = async (res: SearchResult) => {
+    handleFirstPlay();
+    handleCurrentStation(res);
+  };
+
   const handleDrawer = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     setIsDrawer(true);
-    setDrawerData("channel", {...res, tags: prioritizeTags(res.tags, searchFiltersTags).join(",")});
+    setDrawerData("channel", {
+      ...res,
+      tags: prioritizeTags(res.tags, searchFilters.tags).join(","),
+    });
   };
 
   const checkFavourite = favouriteStations.some(
@@ -57,11 +64,11 @@ const MenuListItem = ({
   const prioritizeTags = (tags: string, searchedTags: string): string[] => {
     const allTags = tags.split(",").filter((tag) => tag.trim() !== "");
     const searchedTagsArray = searchedTags.split(",").map((tag) => tag.trim());
-  
+
     if (searchedTagsArray.length === 0) {
       return allTags;
     }
-  
+
     const prioritizedTags = [];
     for (const tag of searchedTagsArray) {
       const index = allTags.indexOf(tag);
@@ -69,73 +76,70 @@ const MenuListItem = ({
         prioritizedTags.push(allTags.splice(index, 1)[0]);
       }
     }
-  
+
     prioritizedTags.push(...allTags);
-  
+
     return prioritizedTags;
   };
 
+  const priority = prioritizeTags(res.tags, searchFilters.tags)
+  const idMatch = res.stationuuid === currentStation.stationuuid
 
   return (
     <>
       <div
         id="result-item"
         className={`${interaction} ${
-          res.stationuuid === currentStation.stationuuid && selected
+          idMatch && selected
         } ${animAll} cursor-pointer rounded-md w-full my-0.5 flex flex-col h-max py-1 px-2`}
         onClick={() => handleSelection(res)}
         key={res.stationuuid}
       >
         <div id="desc" className="h-10 flex w-full items-center relative">
           <div className="flex h-full w-full items-center relative">
-            <div
-              className={`${animAll} ${
-                res.stationuuid === currentStation.stationuuid
-                  ? "min-h-6 min-w-6 h-6 w-6 opacity-1"
-                  : "h-0 opacity-0"
-              } relative`}
-            >
-              <div className="flex absolute items-center justify-center h-full w-full">
-                {playing && !radioBuffer && (
-                  <>
-                    <span className=" absolute animate-pingSlow h-full w-full bg-neutral-400/50 rounded-full" />
-                  </>
-                )}
-                <div
-                  className={`${buttonSwap} ${animAll} ${
-                    (playing && !radioBuffer) || (!playing && !radioBuffer)
-                      ? iconShow
-                      : iconHide
-                  } `}
-                >
-                  <IconCircleCheckFilled size={"100%"} stroke={"1.5"} />
-                </div>
-                <div
-                  className={`${buttonSwap} ${animAll} ${
-                    radioBuffer ? iconShow : iconHide
-                  } animate-spinSlow`}
-                >
-                  <IconInnerShadowBottomFilled size={"100%"} stroke={"1.5"} />
+            {idMatch && (
+              <div
+                className={`
+                  min-h-6 min-w-6 h-6 w-6
+              relative`}
+              >
+                <div className="flex absolute items-center justify-center h-full w-full">
+                  {playing && !radioBuffer && (
+                    <>
+                      <span className=" absolute animate-pingSlow h-full w-full bg-neutral-400/50 rounded-full" />
+                    </>
+                  )}
+                  {(playing && !radioBuffer) || (!playing && !radioBuffer) ? (
+                    <div>
+                      <IconCircleCheckFilled size={"100%"} stroke={"1.5"} />
+                    </div>
+                  ) : null}
+                  {radioBuffer && (
+                    <div className={`animate-spinSlow`}>
+                      <IconInnerShadowBottomFilled
+                        size={"100%"}
+                        stroke={"1.5"}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-            {dynamicTagsVisible && (
-              <div
-                className={`${animAll} ${
-                  checkFavourite
-                    ? "min-h-6 min-w-6 h-6 w-6 opacity-1"
-                    : "h-0 opacity-0"
-                } relative`}
-              >
+            )}
+            {dynamicTagsVisible && checkFavourite ? (
+              <div className={`relative min-h-6 min-w-6 h-6 w-6`}>
                 <div className="flex absolute items-center justify-center h-full w-full">
                   <IconHeartFilled size={"100%"} stroke={"1.5"} />
                 </div>
               </div>
-            )}
+            ) : null}
             <div className="flex w-full h-full items-center justify-between truncate">
               <div className={`${animAll} flex flex-row truncate items-center`}>
                 <h4
-                  className={` ${animAll} ${playing && res.stationuuid === currentStation.stationuuid && "text-fuchsia-200"}  ml-1 text-lg font-semibold truncate`}
+                  className={` ${animAll} ${
+                    playing &&
+                    idMatch &&
+                    "text-fuchsia-400"
+                  }  ml-1 text-lg font-semibold truncate`}
                 >
                   {res.name}
                 </h4>
@@ -184,7 +188,7 @@ const MenuListItem = ({
                 {`${res.bitrate}kBit/s`}
               </ItemTag>
             )}
-            {prioritizeTags(res.tags, searchFiltersTags)
+            {priority
               .slice(0, 5)
               .map((tag: string, index: number) => {
                 if (tag !== "") {
@@ -197,7 +201,11 @@ const MenuListItem = ({
                   );
                 }
               })}
-              {res.tags.split(",").length > 6 && <ItemTag><IconDots size={"100%"} stroke={"1.5"} /></ItemTag>}
+            {res.tags.split(",").length > 6 && (
+              <ItemTag>
+                <IconDots size={"100%"} stroke={"1.5"} />
+              </ItemTag>
+            )}
           </div>
         </>
       </div>

@@ -19,11 +19,9 @@ import MenuNoResult from "./menuNoResult";
 let newAbortController: AbortController | undefined;
 
 const MenuSearch: React.FC = () => {
-  const { handleCurrentStation, handleFirstPlay, searchFilters } =
+  const {searchFilters } =
     useRadioStore(
       useShallow((state) => ({
-        handleCurrentStation: state.handleCurrentStation,
-        handleFirstPlay: state.handleFirstPlay,
         searchFilters: state.searchFilters,
       }))
     );
@@ -134,10 +132,7 @@ const MenuSearch: React.FC = () => {
     setSearchInput(value);
   };
 
-  const handleSelection = async (res: SearchResult) => {
-    handleFirstPlay();
-    handleCurrentStation(res);
-  };
+
 
   useEffect(() => {
     requestSearchResults();
@@ -198,10 +193,8 @@ const MenuSearch: React.FC = () => {
                     return (
                       <React.Fragment key={res.stationuuid}>
                         <MenuListItem
-                          handleSelection={handleSelection}
                           res={res}
                           special={true}
-                          searchFilters={searchFilters}
                           dynamicTagsVisible
                         />
                       </React.Fragment>

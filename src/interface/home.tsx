@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
           playing && !radioBuffer
             ? "opacity-100 delay-200 scale-100"
             : "opacity-0 delay-100 scale-[0.98] grayscale"
-        } duration-500 transition-all ease-default animate-playing bg-gradient-to-r from-rose-700 via-violet-700 to-indigo-700  absolute w-full h-full`}
+        } duration-500 transition-all ease-default saturate-[85%] bg-gradient-to-r from-fuchsia-700 via-violet-700 to-indigo-700  absolute w-full h-full`}
       ></div>
       <MemoToasty />
       <MemoDrawer />

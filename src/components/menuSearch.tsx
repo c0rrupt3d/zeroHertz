@@ -157,9 +157,9 @@ const MenuSearch: React.FC = () => {
   return (
     <div id="search-wrap" className="w-full flex flex-col h-full ">
       <MenuHeading>{"Find Stations"}</MenuHeading>
-      <div id="input-wrap" className="flex w-full items-center relative h-10">
+      <div id="input-wrap" className="flex w-full items-center relative h-12 my-2">
         <div
-          className={`${animAll} w-full bg-neutral-800/75 ${interactionInput} my-2 p-2 flex rounded-full relative h-full`}
+          className={`${animAll} w-full bg-neutral-800/75 ${interactionInput} p-2  flex rounded-full relative h-10`}
         >
           <div id="input-icon" className=" h-full flex aspect-square">
             <IconWorldSearch size={"100%"} stroke={"2"} />
@@ -204,7 +204,7 @@ const MenuSearch: React.FC = () => {
       <div className="overflow-y-auto flex flex-col w-full">
         <div
           id="result"
-          className={` ${animAll} w-full h-full items-center flex flex-col rounded-md mb-2 mt-4 `}
+          className={` ${animAll} w-full h-full items-center flex flex-col rounded-md my-2 `}
         >
           {!failed ? (
             working ? (

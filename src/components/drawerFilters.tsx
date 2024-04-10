@@ -60,7 +60,7 @@ export const DrawerFilters = () => {
       country: "",
       language: "",
       reverse: false,
-      hidebroken: false,
+      hidebroken: true,
       order: "clickcount",
       bitrate: { min: 0, max: "" },
       state: "",

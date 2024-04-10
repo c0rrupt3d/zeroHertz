@@ -38,7 +38,7 @@ const MenuItem: React.FC<{
 };
 
 export const DrawerChannel: React.FC = () => {
-  const {setIsDrawer, drawerData } = useInterfaceStore(
+  const { setIsDrawer, drawerData } = useInterfaceStore(
     useShallow((state) => ({
       setIsDrawer: state.setIsDrawer,
       drawerData: state.drawerData,
@@ -58,17 +58,15 @@ export const DrawerChannel: React.FC = () => {
       </div>
     );
   };
-  const {
-    favouriteStations,
-    addFavouriteStation,
-    removeFavouriteStation,
-  } = useRadioStore(
-    useShallow((state) => ({
-      favouriteStations: state.favouriteStations,
-      addFavouriteStation: state.addFavouriteStation,
-      removeFavouriteStation: state.removeFavouriteStation,
-    }))
-  );
+
+  const { favouriteStations, addFavouriteStation, removeFavouriteStation } =
+    useRadioStore(
+      useShallow((state) => ({
+        favouriteStations: state.favouriteStations,
+        addFavouriteStation: state.addFavouriteStation,
+        removeFavouriteStation: state.removeFavouriteStation,
+      }))
+    );
 
   const checkFavourite = favouriteStations.some(
     (station) => station.stationuuid === mainData.stationuuid

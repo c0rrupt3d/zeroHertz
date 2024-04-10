@@ -4,7 +4,7 @@ const Spinner: React.FC<SpinnerProps> = ({ alt }) => {
   return (
     <div
       id="loading-spinner"
-      className="w-full flex justify-center items-center"
+      className="w-full overflow-hidden flex justify-center items-center"
     >
       <div
         id="spinner"

@@ -1,5 +1,5 @@
 import { useInterfaceStore } from "@/stores/interfaceStore";
-import { animAll, button, morphOn } from "@/utils/tailwindUtil";
+import { animAll, button, buttonBorder, morphOn } from "@/utils/tailwindUtil";
 import { IconAlertCircle, IconX } from "@tabler/icons-react";
 import { useShallow } from "zustand/react/shallow";
 
@@ -49,7 +49,7 @@ const Toasty: React.FC = () => {
             <button
               data-modal-hide="popup-modal"
               type="button"
-              className={`${button} px-6 py-2 border-2 border-neutral-800 `}
+              className={`${button} ${buttonBorder} px-6 py-2`}
               onClick={() => setIsToasty(false)}
             >
               {"OK"}

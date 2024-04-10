@@ -12,7 +12,7 @@ type RadioStoreType = {
   loadingStation: boolean;
   validStation: boolean;
   searchFilters: SearchOptions;
-  customTags: string;
+  loadedOptions: LoadedOptions;
 };
 
 type RadioStoreAction = {
@@ -25,8 +25,8 @@ type RadioStoreAction = {
   addFavouriteStation: (value: RadioStoreType["currentStation"]) => void;
   removeFavouriteStation: (value: string) => void;
   setSearchFilters: (value: string | boolean, filter: string) => void;
-  setCustomTags: (value: string) => void;
   setValidStation: () => void;
+  setLoadedOptions: (property: "countries" | "languages" ,value: string) => void;
 };
 
 type SettingsStoreType = {
@@ -47,7 +47,7 @@ type InterfaceStoreType = {
   isDrawer: boolean;
   drawerData: {
     type: "channel" | "filters";
-    data: Station | SearchResult;
+    data?: Station;
   };
   isVolumeSlider: boolean;
   menuSection: 1 | 2 | 3;
@@ -60,7 +60,7 @@ type InterfaceStoreAction = {
   setIsDrawer: (value: InterfaceStoreType["isDrawer"]) => void;
   setDrawerData: (
     type: "channel" | "filters",
-    data: Station | SearchResult
+    data?: Station,
   ) => void;
   setVolumeSlider: (value: InterfaceStoreType["isVolumeSlider"]) => void;
   setMenuSection: (value: InterfaceStoreType["menuSection"]) => void;
@@ -144,20 +144,20 @@ type DropdownProps = {
   filter: string;
   options: any;
   value: string;
-  setSearchFilters: any;
+  setTemp: any;
   all: boolean;
 };
 
-type LoadedOptionsType = {
-  country: SearchResult["country"];
-  language: SearchResult["language"];
+type LoadedOptions = {
+  countries: SearchResult["country"];
+  languages: SearchResult["language"];
 };
 
 type ToggleProps = {
   label: string;
   filter: string;
   value: boolean;
-  setSearchFilters: any;
+  setTemp: any;
   showInverted: boolean;
 };
 
@@ -171,7 +171,7 @@ type MenuNoResultProps = {
 type TagSearchProps = {
   label: string;
   filter: string;
-  setSearchFilters: any;
+  setTemp: any;
   value: string;
 };
 

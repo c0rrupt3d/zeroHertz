@@ -3,7 +3,7 @@ import React from "react";
 export const DropdownSelect: React.FC<DropdownProps> = ({
   label,
   options,
-  setSearchFilters,
+  setTemp,
   placeholder,
   filter,
   value,
@@ -17,7 +17,7 @@ export const DropdownSelect: React.FC<DropdownProps> = ({
       <select
         id={filter}
         className="capitalize rounded-md px-1 py-2 bg-neutral-800"
-        onChange={(event) => setSearchFilters(event.target.value, filter)}
+        onChange={(event) => setTemp((prev: SearchOptions) => ({...prev, [filter] : event.target.value}))}
         value={value}
       >
         {all && <option value={""}>{`All ${placeholder}`}</option>}

@@ -1,4 +1,5 @@
 import DrawerChannel from "@/components/drawerChannel";
+import DrawerFilters from "@/components/drawerFilters";
 import { useInterfaceStore } from "@/stores/interfaceStore";
 import {
   animAll,
@@ -11,9 +12,6 @@ import {
 } from "@tabler/icons-react";
 import { useShallow } from "zustand/react/shallow";
 
-const ListItemDrawer = () => {
-  return "list";
-};
 
 const Drawer = () => {
   const { isDrawer, setIsDrawer, drawerData } = useInterfaceStore(
@@ -36,7 +34,7 @@ const Drawer = () => {
         id="drawer-box"
         className={` ${animAll} ${
           isDrawer ? "opacity-100 translate-y-0" : "opacity-90 translate-y-full"
-        } xs:max-w-screen-xs w-full h-fit max-h-[75svh] relative flex will-change-transform border border-b-0 rounded-md rounded-b-none border-neutral-800 `}
+        } xs:max-w-screen-xs w-full h-fit max-h-[85svh] relative flex will-change-transform border border-b-0 rounded-md rounded-b-none border-neutral-800 `}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`rounded-md rounded-b-none w-full h-full ${morphOn} flex flex-col bottom-0`}>
@@ -54,7 +52,7 @@ const Drawer = () => {
             {drawerData.type == "channel" ? (
               <DrawerChannel />
             ) : (
-              <ListItemDrawer />
+              <DrawerFilters />
             )}
           </div>
         </div>

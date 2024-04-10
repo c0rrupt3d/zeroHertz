@@ -1,32 +1,15 @@
 import { animAll, button, interactionInput } from "@/utils/tailwindUtil";
-import { IconSearch, IconTags, IconX } from "@tabler/icons-react";
+import { IconTags, IconX } from "@tabler/icons-react";
 import React from "react";
 import ItemTag from "./itemTag";
-import { useRadioStore } from "@/stores/radioStore";
-import { useShallow } from "zustand/react/shallow";
 
 export const TagSearch: React.FC<TagSearchProps> = ({
   label,
   filter,
-  setSearchFilters,
+  setTemp,
+  value
 }) => {
 
-  const { customTags, setCustomTags } = useRadioStore(
-    useShallow((state) => ({
-      customTags: state.customTags,
-      setCustomTags: state.setCustomTags,
-    }))
-  );
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      setSearchFilters(customTags, "tags");
-    }
-  };
-
-  const handleClick = () => {
-    setSearchFilters(customTags, "tags");
-  };
   return (
     <>
       <div className="flex flex-col w-full mt-2">
@@ -48,31 +31,30 @@ export const TagSearch: React.FC<TagSearchProps> = ({
               autoCapitalize="false"
               type="text"
               spellCheck="false"
-              placeholder="Search tags, by comma"
-              value={customTags}
-              onChange={(e) => setCustomTags(e.target.value.toLowerCase())}
-              onKeyDown={(e) => handleKeyDown(e)}
+              placeholder="Search tags, comma, seperated"
+              value={value}
+              onChange={(e) => setTemp((prev: SearchOptions) => ({...prev, tags: e.target.value.toLowerCase().concat()}))}
             ></input>
-            {customTags !== "" && (
+            {value !== "" && (
               <div
                 id="clear-icon"
-                onClick={() => setCustomTags("")}
+                onClick={() => setTemp((prev: SearchOptions) => ({...prev, tags: ""}))}
                 className={`${button} h-full flex aspect-square`}
               >
                 <IconX size={"100%"} stroke={"1.5"} />
               </div>
             )}
           </div>
-          <button
+          {/* <button
             onClick={() => handleClick()}
             className={`${button} bg-neutral-800 aspect-square h-full `}
           >
             <IconSearch size={"100%"} stroke={"1.5"} />
-          </button>
+          </button> */}
         </div>
         <div className="w-full flex mt-2 text-sm items-center">
-          <span className="mr-0.5">{`Preview:`}</span>
-          {customTags.split(",").map((tag: string, index: number) => {
+          <span className="mr-0.5">{`Tag Preview:`}</span>
+          {value.split(",").map((tag: string, index: number) => {
             return (
               <React.Fragment key={index}>
                 {tag && (

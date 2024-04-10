@@ -2,6 +2,7 @@ import { useRadioStore } from "@/stores/radioStore";
 import { animAll, button, interaction, selected } from "@/utils/tailwindUtil";
 import {
   IconCircleCheckFilled,
+  IconCircleDotFilled,
   IconDots,
   IconDotsVertical,
   IconHeartFilled,
@@ -82,8 +83,8 @@ const MenuListItem = ({
     return prioritizedTags;
   };
 
-  const priority = prioritizeTags(res.tags, searchFilters.tags)
-  const idMatch = res.stationuuid === currentStation.stationuuid
+  const priority = prioritizeTags(res.tags, searchFilters.tags);
+  const idMatch = res.stationuuid === currentStation.stationuuid;
 
   return (
     <>
@@ -104,16 +105,21 @@ const MenuListItem = ({
               relative`}
               >
                 <div className="flex absolute items-center justify-center h-full w-full">
-                  {playing && !radioBuffer && (
+                  {/* {playing && !radioBuffer && (
                     <>
-                      <span className=" absolute animate-pingSlow h-full w-full bg-neutral-400/50 rounded-full" />
+                      <span className=" absolute animate-pingSlow h-full w-full bg-fuchsia-400/50 rounded-full" />
                     </>
-                  )}
-                  {(playing && !radioBuffer) || (!playing && !radioBuffer) ? (
+                  )} */}
+                  {playing && !radioBuffer && (
                     <div>
                       <IconCircleCheckFilled size={"100%"} stroke={"1.5"} />
                     </div>
-                  ) : null}
+                  )}
+                  {!playing && !radioBuffer && (
+                    <div>
+                      <IconCircleDotFilled size={"100%"} stroke={"1.5"} />
+                    </div>
+                  )}
                   {radioBuffer && (
                     <div className={`animate-spinSlow`}>
                       <IconInnerShadowBottomFilled
@@ -136,9 +142,7 @@ const MenuListItem = ({
               <div className={`${animAll} flex flex-row truncate items-center`}>
                 <h4
                   className={` ${animAll} ${
-                    playing &&
-                    idMatch &&
-                    "text-fuchsia-400"
+                    playing && idMatch && !radioBuffer && "text-fuchsia-500"
                   }  ml-1 text-lg font-semibold truncate`}
                 >
                   {res.name}
@@ -188,19 +192,17 @@ const MenuListItem = ({
                 {`${res.bitrate}kBit/s`}
               </ItemTag>
             )}
-            {priority
-              .slice(0, 5)
-              .map((tag: string, index: number) => {
-                if (tag !== "") {
-                  return (
-                    <React.Fragment key={index}>
-                      <ItemTag small={false} special={false} icon={""}>
-                        {tag}
-                      </ItemTag>
-                    </React.Fragment>
-                  );
-                }
-              })}
+            {priority.slice(0, 5).map((tag: string, index: number) => {
+              if (tag !== "") {
+                return (
+                  <React.Fragment key={index}>
+                    <ItemTag small={false} special={false} icon={""}>
+                      {tag}
+                    </ItemTag>
+                  </React.Fragment>
+                );
+              }
+            })}
             {res.tags.split(",").length > 6 && (
               <ItemTag>
                 <IconDots size={"100%"} stroke={"1.5"} />

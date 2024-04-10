@@ -1,4 +1,5 @@
 import {
+  IconAdjustmentsFilled,
   IconBan,
   IconChevronsDown,
   IconRefresh,
@@ -7,24 +8,36 @@ import {
 } from "@tabler/icons-react";
 import React, { useState, useRef, useEffect } from "react";
 import MenuHeading from "./menuHeading";
-import { animAll, button, interactionInput } from "@/utils/tailwindUtil";
+import {
+  animAll,
+  button,
+  interaction,
+  interactionInput,
+} from "@/utils/tailwindUtil";
 import { findStations } from "@/utils/apiConnect";
 import { useShallow } from "zustand/react/shallow";
 import Spinner from "./spinner";
 import { useRadioStore } from "@/stores/radioStore";
-import MenuSearchFilter from "./menuSearchFilter";
 import MenuListItem from "./menuListItem";
 import MenuNoResult from "./menuNoResult";
+import { useInterfaceStore } from "@/stores/interfaceStore";
 
 let newAbortController: AbortController | undefined;
 
 const MenuSearch: React.FC = () => {
-  const {searchFilters } =
-    useRadioStore(
-      useShallow((state) => ({
-        searchFilters: state.searchFilters,
-      }))
-    );
+  const { searchFilters } = useRadioStore(
+    useShallow((state) => ({
+      searchFilters: state.searchFilters,
+    }))
+  );
+
+  const { setIsDrawer, setDrawerData } = useInterfaceStore(
+    useShallow((state) => ({
+      setIsDrawer: state.setIsDrawer,
+      drawerData: state.drawerData,
+      setDrawerData: state.setDrawerData,
+    }))
+  );
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -132,8 +145,6 @@ const MenuSearch: React.FC = () => {
     setSearchInput(value);
   };
 
-
-
   useEffect(() => {
     requestSearchResults();
   }, [searchInput]);
@@ -146,40 +157,54 @@ const MenuSearch: React.FC = () => {
   return (
     <div id="search-wrap" className="w-full flex flex-col h-full ">
       <MenuHeading>{"Find Stations"}</MenuHeading>
-      <div
-        id="input-wrap"
-        className={` ${animAll} bg-neutral-800/75 ${interactionInput} my-2 p-2 flex rounded-full relative h-10 `}
-      >
-        <div id="input-icon" className=" h-full flex aspect-square">
-          <IconWorldSearch size={"100%"} stroke={"2"} />
-        </div>
-        <input
-          id="input"
-          className="text-lg px-4 rounded-md h-full w-full border-0 bg-transparent outline-0"
-          autoComplete="false"
-          autoCapitalize="false"
-          type="text"
-          spellCheck="false"
-          placeholder="Search station name"
-          value={searchInput}
-          ref={searchInputRef}
-          onChange={(e) => handleSearchInputChange(e.target.value)}
-        ></input>
-        {searchInput !== "" && (
-          <div
-            id="clear-icon"
-            onClick={() => handleSearchInputChange("")}
-            className={` ${button} h-full flex aspect-square`}
-          >
-            <IconX size={"100%"} stroke={"1.5"} />
+      <div id="input-wrap" className="flex w-full items-center relative h-10">
+        <div
+          className={`${animAll} w-full bg-neutral-800/75 ${interactionInput} my-2 p-2 flex rounded-full relative h-full`}
+        >
+          <div id="input-icon" className=" h-full flex aspect-square">
+            <IconWorldSearch size={"100%"} stroke={"2"} />
           </div>
+          <input
+            id="input"
+            className="text-lg px-4 rounded-md h-full w-full border-0 bg-transparent outline-0"
+            autoComplete="false"
+            autoCapitalize="false"
+            type="text"
+            spellCheck="false"
+            placeholder="Search station name"
+            value={searchInput}
+            ref={searchInputRef}
+            onChange={(e) => handleSearchInputChange(e.target.value)}
+          ></input>
+          {searchInput !== "" && (
+            <div
+              id="clear-icon"
+              onClick={() => handleSearchInputChange("")}
+              className={` ${button} h-full flex aspect-square`}
+            >
+              <IconX size={"100%"} stroke={"1.5"} />
+            </div>
+          )}
+        </div>
+        {!failed && (
+          <button
+            id="filter-header"
+            className={` ${interaction} ${animAll} ml-1 p-1 rounded-md cursor-pointer relative items-center h-full flex justify-between`}
+            onClick={() => {
+              setIsDrawer(true);
+              setDrawerData("filters");
+            }}
+          >
+            <div className="flex h-full items-center justify-start">
+              <IconAdjustmentsFilled size={"100%"} stroke={"1.5"} />
+            </div>
+          </button>
         )}
       </div>
       <div className="overflow-y-auto flex flex-col w-full">
-        {!failed && <MenuSearchFilter />}
         <div
           id="result"
-          className={` ${animAll} w-full h-full items-center flex flex-col rounded-md my-2 `}
+          className={` ${animAll} w-full h-full items-center flex flex-col rounded-md mb-2 mt-4 `}
         >
           {!failed ? (
             working ? (

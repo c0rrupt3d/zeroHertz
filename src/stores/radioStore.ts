@@ -32,6 +32,10 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
           reverse: false,
           hidebroken: true,
         },
+        loadedOptions: {
+          countries: "",
+          languages: "",
+        },
         favouriteStations: [],
         radioPlay: false,
         radioBuffer: false,
@@ -40,7 +44,11 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
         loadingStation: false,
         userRadioInteract: false,
         validStation: false,
-        customTags: "",
+        setLoadedOptions: (property, value) => {
+          set((state) => {
+            state.loadedOptions[property] = value;
+          })
+        },
         handleCurrentStation: (value) =>
           set((state) => {
             state.radioBuffer = true;
@@ -131,18 +139,8 @@ export const useRadioStore = create<RadioStoreType & RadioStoreAction>()(
               ...state.searchFilters,
               [filter]: value,
             };
-            if (state.customTags !== state.searchFilters.tags) {
-              state.searchFilters = {
-                ...state.searchFilters,
-                tags: state.customTags,
-              };
-            }
           });
         },
-        setCustomTags: (value) =>
-          set((state) => {
-            state.customTags = value;
-          }),
       }),
       {
         name: "radioControl",

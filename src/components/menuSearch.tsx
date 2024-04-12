@@ -1,5 +1,6 @@
 import {
-  IconAdjustmentsFilled,
+  IconAdjustments,
+  IconAdjustmentsCheck,
   IconBan,
   IconChevronsDown,
   IconRefresh,
@@ -55,6 +56,40 @@ const MenuSearch: React.FC = () => {
     setOffset(0);
     loadSearchResults(false);
   };
+
+  const compareSearchOptions = (
+    newOptions: Partial<SearchOptions>
+  ) => {
+    const initialOptions: SearchOptions = {
+      tags: "",
+      country: "",
+      state: "",
+      language: "",
+      order: "clickcount",
+      bitrate: { min: 0, max: "" },
+      reverse: false,
+      hidebroken: true,
+    }
+
+    const isDifferent = Object.keys(newOptions).some(key => {
+      const initialValue = initialOptions[key as keyof SearchOptions];
+      const newValue = newOptions[key as keyof SearchOptions];
+      
+      // If the property is an object (bitrate), deeply compare its values
+      if (typeof initialValue === 'object' && typeof newValue === 'object') {
+        return (
+          JSON.stringify(initialValue) !== JSON.stringify(newValue)
+        );
+      }
+      
+      // Compare other types directly
+      return initialValue !== newValue;
+    });
+  
+    return isDifferent;
+  }
+
+  const selectedFilters = compareSearchOptions(searchFilters);
 
   const loadSearchResults = async (doOffset: boolean): Promise<void> => {
     newAbortController?.abort();
@@ -157,7 +192,10 @@ const MenuSearch: React.FC = () => {
   return (
     <div id="search-wrap" className="w-full flex flex-col h-full ">
       <MenuHeading>{"Find Stations"}</MenuHeading>
-      <div id="input-wrap" className="flex w-full items-center relative h-12 my-2">
+      <div
+        id="input-wrap"
+        className="flex w-full items-center relative h-12 my-2"
+      >
         <div
           className={`${animAll} w-full bg-neutral-800/75 ${interactionInput} p-2  flex rounded-full relative h-10`}
         >
@@ -189,14 +227,14 @@ const MenuSearch: React.FC = () => {
         {!failed && (
           <button
             id="filter-header"
-            className={` ${interaction} ${animAll} ml-1 p-1 rounded-md cursor-pointer relative items-center h-full flex justify-between`}
+            className={` ${interaction} ${animAll} ml-1 p-2 rounded-md cursor-pointer relative items-center h-full flex justify-between`}
             onClick={() => {
               setIsDrawer(true);
               setDrawerData("filters");
             }}
           >
             <div className="flex h-full items-center justify-start">
-              <IconAdjustmentsFilled size={"100%"} stroke={"1.5"} />
+              {selectedFilters ? <IconAdjustmentsCheck size={"100%"} stroke={"1.5"} /> : <IconAdjustments size={"100%"} stroke={"1.5"}/>}
             </div>
           </button>
         )}

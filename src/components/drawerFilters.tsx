@@ -7,8 +7,13 @@ import TagSearch from "./tagSearch";
 import ToggleSwitch from "./toggleSwitch";
 import DropdownSelect from "./dropdownSelect";
 import MenuHeading from "./menuHeading";
-import { button, buttonAlt, buttonBorder } from "@/utils/tailwindUtil";
-import Spinner from "./spinner";
+import {
+  button,
+  buttonAlt,
+  buttonBorder,
+  buttonBorderAlt,
+} from "@/utils/tailwindUtil";
+import DropdownSkeleton from "./skeletons/dropdownSkeleton";
 
 export const DrawerFilters = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,13 +30,15 @@ export const DrawerFilters = () => {
     state: "",
   });
 
-  const { setSearchFilters, loadedOptions, setLoadedOptions } = useRadioStore(
-    useShallow((state) => ({
-      setSearchFilters: state.setSearchFilters,
-      loadedOptions: state.loadedOptions,
-      setLoadedOptions: state.setLoadedOptions,
-    }))
-  );
+  const { setSearchFilters, loadedOptions, setLoadedOptions, searchFilters } =
+    useRadioStore(
+      useShallow((state) => ({
+        setSearchFilters: state.setSearchFilters,
+        loadedOptions: state.loadedOptions,
+        setLoadedOptions: state.setLoadedOptions,
+        searchFilters: state.searchFilters,
+      }))
+    );
 
   const { setIsDrawer } = useInterfaceStore(
     useShallow((state) => ({
@@ -86,92 +93,92 @@ export const DrawerFilters = () => {
     if (!loadedOptions.countries || !loadedOptions.languages) {
       loadFilterOptions();
     }
+    Object.entries(searchFilters).forEach(([filter, value]) => {
+      setTemp((prev: SearchOptions) => ({ ...prev, [filter]: value }));
+    });
   }, []);
 
   return (
     <div className="w-full h-full flex flex-col relative">
       <MenuHeading>Search Filters</MenuHeading>
-      {!loading ? (
-        !failed && 
-          <>
-            <div className="w-full h-full max-h-[75svh] flex flex-col relative overflow-y-auto">
-              <TagSearch
-                setTemp={setTemp}
-                value={temp.tags}
-                filter={"tagList"}
-                label={"Tags (comma seprated)"}
-              />
-              {loadedOptions.countries !== "" && (
-                <DropdownSelect
-                  options={loadedOptions.countries}
-                  label={"Country"}
-                  filter="country"
-                  placeholder={"Countries"}
-                  setTemp={setTemp}
-                  value={temp.country}
-                  all={true}
-                />
-              )}
-              {loadedOptions.languages !== "" && (
-                <DropdownSelect
-                  options={loadedOptions.languages}
-                  label={"Language"}
-                  filter="language"
-                  placeholder={"Languages"}
-                  setTemp={setTemp}
-                  value={temp.language}
-                  all={true}
-                />
-              )}
+      {!failed && (
+        <>
+          <div className="w-full h-full max-h-[75svh] flex flex-col relative overflow-y-auto">
+            <TagSearch
+              setTemp={setTemp}
+              value={temp.tags}
+              filter={"tagList"}
+              label={"Tags (comma seprated)"}
+            />
+            {/* <DropdownSkeleton/> */}
+            {loadedOptions.countries !== "" ? (
               <DropdownSelect
-                options={sortOptions}
-                label="Sort By"
-                filter="order"
-                placeholder="Sort By"
+                options={loadedOptions.countries}
+                label={"Country"}
+                filter="country"
+                placeholder={"Countries"}
                 setTemp={setTemp}
-                value={temp.order}
-                all={false}
+                value={temp.country}
+                all={true}
               />
+            ) : loading ? (
+              <DropdownSkeleton />
+            ) : null}
+            {loadedOptions.languages !== "" ? (
+              <DropdownSelect
+                options={loadedOptions.languages}
+                label={"Language"}
+                filter="language"
+                placeholder={"Languages"}
+                setTemp={setTemp}
+                value={temp.language}
+                all={true}
+              />
+            ) : loading ? (
+              <DropdownSkeleton />
+            ) : null}
+            <DropdownSelect
+              options={sortOptions}
+              label="Sort By"
+              filter="order"
+              placeholder="Sort By"
+              setTemp={setTemp}
+              value={temp.order}
+              all={false}
+            />
 
-              <ToggleSwitch
-                showInverted={false}
-                setTemp={setTemp}
-                value={temp.reverse}
-                label={"Reverse Order"}
-                filter="reverse"
-              />
-              <ToggleSwitch
-                showInverted={true}
-                setTemp={setTemp}
-                value={temp.hidebroken}
-                label={"Show Broken Stations"}
-                filter="hidebroken"
-              />
-              <div className=" min-h-32 "/>
-            </div>
-            <div className="w-full h-12 flex p-1 fixed bg-neutral-900 left-0 bottom-0">
-              <button
-                className={`${button} mx-1 ${buttonBorder} w-[calc(100%-2rem)]`}
-                onClick={clearTemp}
-              >
-                Clear
-              </button>
-
-              <button
-                className={`${button} mx-1 ${buttonAlt} w-[calc(100%-2rem)]`}
-                onClick={handleSearchFilters}
-              >
-                Apply
-              </button>
-            </div>
-          </>
-        
-      ) : (
-        <div className="flex justify-center h-32 w-full">
-          <div className="h-10 w-10 flex">
-            <Spinner />
+            <ToggleSwitch
+              showInverted={false}
+              setTemp={setTemp}
+              value={temp.reverse}
+              label={"Reverse Order"}
+              filter="reverse"
+            />
+            <ToggleSwitch
+              showInverted={true}
+              setTemp={setTemp}
+              value={temp.hidebroken}
+              label={"Show Broken Stations"}
+              filter="hidebroken"
+            />
+            <div className=" min-h-32 " />
           </div>
-        </div>
+          <div className="w-full h-12 flex p-1 fixed bg-neutral-900 left-0 bottom-0">
+            <button
+              className={`${button} mx-1 ${buttonBorder} w-[calc(100%-2rem)]`}
+              onClick={clearTemp}
+            >
+              Clear
+            </button>
+
+            <button
+              className={`${button} mx-1 ${buttonAlt} ${buttonBorderAlt} w-[calc(100%-2rem)]`}
+              onClick={handleSearchFilters}
+            >
+              Apply
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

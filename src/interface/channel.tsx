@@ -148,7 +148,7 @@ const Channel: React.FC = () => {
                   radioBuffer ? iconShow : iconHide
                 } ${animAll} items-center justify-center flex`}
               >
-                <Spinner alt />
+                <Spinner animate={radioBuffer} alt />
                 <div className="absolute flex items-center w-1/2 h-1/2">
                   <IconPlayerStopFilled size={"100%"} stroke={"1.5"} />
                 </div>

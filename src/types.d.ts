@@ -26,7 +26,10 @@ type RadioStoreAction = {
   removeFavouriteStation: (value: string) => void;
   setSearchFilters: (value: string | boolean, filter: string) => void;
   setValidStation: () => void;
-  setLoadedOptions: (property: "countries" | "languages" ,value: string) => void;
+  setLoadedOptions: (
+    property: "countries" | "languages",
+    value: string
+  ) => void;
 };
 
 type SettingsStoreType = {
@@ -58,10 +61,7 @@ type InterfaceStoreAction = {
   setIsToasty: (value: InterfaceStoreType["isToasty"]) => void;
   setIsMenu: (value: InterfaceStoreType["isMenu"]) => void;
   setIsDrawer: (value: InterfaceStoreType["isDrawer"]) => void;
-  setDrawerData: (
-    type: "channel" | "filters",
-    data?: Station,
-  ) => void;
+  setDrawerData: (type: "channel" | "filters", data?: Station) => void;
   setVolumeSlider: (value: InterfaceStoreType["isVolumeSlider"]) => void;
   setMenuSection: (value: InterfaceStoreType["menuSection"]) => void;
 };
@@ -205,4 +205,5 @@ type MenuListItemType = {
 
 type SpinnerProps = {
   alt?: boolean;
+  animate?: boolean;
 };

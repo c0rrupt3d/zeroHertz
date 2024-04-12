@@ -54,7 +54,7 @@ export const DrawerFilters = () => {
     { name: "codec" },
   ];
 
-  const handleSearchFilters = () => {
+  const handleSearchFilters = (temp: SearchOptions) => {
     Object.entries(temp).forEach(([filter, value]) => {
       setSearchFilters(value, filter);
     });
@@ -62,7 +62,7 @@ export const DrawerFilters = () => {
   };
 
   const clearTemp = () => {
-    setTemp({
+    const reset : SearchOptions = {
       tags: "",
       country: "",
       language: "",
@@ -71,7 +71,9 @@ export const DrawerFilters = () => {
       order: "clickcount",
       bitrate: { min: 0, max: "" },
       state: "",
-    });
+    }
+    setTemp(reset);
+    handleSearchFilters(reset)
   };
 
   async function loadFilterOptions(): Promise<void> {
@@ -166,14 +168,14 @@ export const DrawerFilters = () => {
           <div className="w-full h-12 flex p-1 fixed bg-neutral-900 left-0 bottom-0">
             <button
               className={`${button} mx-1 ${buttonBorder} w-[calc(100%-2rem)]`}
-              onClick={clearTemp}
+              onClick={() => clearTemp()}
             >
-              Clear
+              Reset
             </button>
 
             <button
               className={`${button} mx-1 ${buttonAlt} ${buttonBorderAlt} w-[calc(100%-2rem)]`}
-              onClick={handleSearchFilters}
+              onClick={() => handleSearchFilters(temp)}
             >
               Apply
             </button>

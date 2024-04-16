@@ -10,10 +10,12 @@ let newAbortController: AbortController | undefined;
 const ChannelPlayer: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const {setErrorText, setIsToasty} = useInterfaceStore(useShallow((state) => ({
-    setErrorText: state.setErrorText,
-    setIsToasty: state.setIsToasty,
-  })))
+  const { setErrorText, setIsToasty } = useInterfaceStore(
+    useShallow((state) => ({
+      setErrorText: state.setErrorText,
+      setIsToasty: state.setIsToasty,
+    }))
+  );
 
   const {
     currentStation,
@@ -41,66 +43,62 @@ const ChannelPlayer: React.FC = () => {
   );
 
   const handlePlay = async () => {
-    setLoadingStation(true)
+    setLoadingStation(true);
     const audio = audioRef.current;
-    audio?.load()
-    const res = currentStation
+    audio?.load();
+    const res = currentStation;
     newAbortController?.abort();
     const controller = new AbortController();
     newAbortController = controller;
-
+    let updatedUrl = null;
     try {
       const playableUrl = await fetchPlayableUrl({
         id: res.stationuuid,
-        signal: controller.signal
-      })
-      const updatedUrl = playableUrl.ok ? playableUrl.url : res.url
+        signal: controller.signal,
+      });
+      updatedUrl = playableUrl?.ok ? playableUrl.url : res.url;
+    } catch (err) {
+      updatedUrl = res.url;
+    }
 
+    try {
       if (audio) {
-          audio.src = updatedUrl;
-          try {
-            audio.play();
-          }
-          catch(err) {
-           // audio error to be managed later
-          }
-      }
-      
-    }
-    catch(err) {
-      setErrorText("Failed to load station, please try later")
-      setIsToasty(true)
-      setRadioBuffer(false)
-    }
-    finally {
-      setLoadingStation(false)
-    }
-    
+        audio.src = updatedUrl;
 
+        audio.play();
+      } else {
+        throw new Error("audio is null");
+      }
+    } catch (err) {
+      setErrorText("Failed to load station, please try later");
+      setIsToasty(true);
+      setRadioBuffer(false);
+    } finally {
+      setLoadingStation(false);
+    }
   };
 
   const handleError = (text: string) => {
-    setErrorText(text)
-    setIsToasty(true)
-    setRadioBuffer(false)
-  }
+    setErrorText(text);
+    setIsToasty(true);
+    setRadioBuffer(false);
+  };
 
   const manageRadioToggle = (value: boolean) => {
     try {
       handleRadioToggle(value);
+    } catch (err) {
+      handleError("No Station Selected. Please search and select a station.");
     }
-    catch(err) {
-      handleError("No Station Selected. Please search and select a station.")
-    }
-  }
+  };
 
   const handleOnWaiting = () => {
-    setRadioBuffer(true)
-  }
+    setRadioBuffer(true);
+  };
 
   const handleOnPlaying = () => {
-    setRadioBuffer(false)
-  }
+    setRadioBuffer(false);
+  };
 
   const handleOnPlay = () => {
     setPlaying(true);
@@ -111,26 +109,23 @@ const ChannelPlayer: React.FC = () => {
   };
 
   const handleOnPause = () => {
-
     setPlaying(false);
     setRadioBuffer(false);
     if (radioPlay) {
       manageRadioToggle(false);
     }
-
   };
 
   const handlePause = () => {
     const audio = audioRef.current;
     if (audio) {
       try {
-        audio.removeAttribute("src")
+        audio.removeAttribute("src");
         audio.pause();
         audio.load();
         setRadioBuffer(false);
         setPlaying(false);
-      }
-      catch {
+      } catch {
         // audio error to be managed later
       }
     }
@@ -144,10 +139,9 @@ const ChannelPlayer: React.FC = () => {
   };
 
   useEffect(() => {
-    if(radioPlay && firstPlay) {
+    if (radioPlay && firstPlay) {
       handlePlay();
-    }
-    else if (!radioPlay) {
+    } else if (!radioPlay) {
       handlePause();
     }
   }, [radioPlay]);
@@ -155,9 +149,8 @@ const ChannelPlayer: React.FC = () => {
   useEffect(() => {
     if (firstPlay && !radioPlay) {
       manageRadioToggle(true);
-    }
-    else if (firstPlay) {
-      handlePlay()
+    } else if (firstPlay) {
+      handlePlay();
     }
   }, [currentStation]);
 
@@ -176,7 +169,9 @@ const ChannelPlayer: React.FC = () => {
         onPlaying={() => handleOnPlaying()}
         onPlay={() => handleOnPlay()}
         onPause={() => handleOnPause()}
-        onError={() => handleError(`Failed to load ${currentStation.name}, please try later`)}
+        onError={() =>
+          handleError(`Failed to load ${currentStation.name}, please try later`)
+        }
       />
     </>
   );

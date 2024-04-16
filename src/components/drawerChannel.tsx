@@ -195,7 +195,7 @@ export const DrawerChannel: React.FC = () => {
           <MenuItem
             text={"Open radio homepage"}
             icon={<IconExternalLink size={"100%"} stroke={"1.5"} />}
-            click={() => window.open(mainData.homepage, "_bank")}
+            click={() => window.open(mainData.homepage, "_blank", "noopener,noreferrer")}
           />
         )}
       </div>
